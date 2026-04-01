@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { LiveKitRoom } from '@livekit/components-react';
-import '@livekit/components-styles';
+import '@livekit/components-styles/dist/index.css';
 import { fetchToken } from '@/lib/api';
 import StudyRoom from '@/components/StudyRoom';
 
