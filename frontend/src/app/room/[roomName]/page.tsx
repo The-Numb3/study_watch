@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { LiveKitRoom } from '@livekit/components-react';
-import '@livekit/components-styles/dist/index.css';
 import { fetchToken } from '@/lib/api';
 import StudyRoom from '@/components/StudyRoom';
 
@@ -44,7 +43,6 @@ export default function RoomPage() {
       token={token}
       serverUrl={wsUrl}
       connect={true}
-      data-lk-theme="default"
       style={{ height: '100vh' }}
     >
       <StudyRoom />
