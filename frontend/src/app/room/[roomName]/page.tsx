@@ -38,7 +38,7 @@ export default function RoomPage() {
 
   return (
     <LiveKitRoom
-      video={true}
+      video={false}
       audio={false}
       token={token}
       serverUrl={wsUrl}
