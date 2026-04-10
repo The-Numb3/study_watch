@@ -185,6 +185,28 @@ async function ensureNarutoLibraries() {
   );
 }
 
+async function loadGestureModelFromAvailableSources() {
+  await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs');
+
+  if (!window.tf?.loadLayersModel) {
+    throw new Error('TensorFlow.js did not initialize.');
+  }
+
+  try {
+    const model = await window.tf.loadLayersModel('indexeddb://naruto-gesture-model');
+    return { model, source: 'indexeddb' as const };
+  } catch (_error) {
+    // Fall through to the static public model if one exists.
+  }
+
+  try {
+    const model = await window.tf.loadLayersModel('/naruto/gesture-model.json');
+    return { model, source: 'public' as const };
+  } catch (_error) {
+    return null;
+  }
+}
+
 export default function NarutoPublisher({ localParticipant }: Props) {
   const hiddenVideoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -316,16 +338,20 @@ export default function NarutoPublisher({ localParticipant }: Props) {
         if (cancelled) return;
 
         try {
-          await loadScript('https://cdn.jsdelivr.net/npm/@tensorflow/tfjs');
+          const loadedModel = await loadGestureModelFromAvailableSources();
 
-          if (window.tf?.loadLayersModel) {
-            gestureModelRef.current = await window.tf.loadLayersModel('/naruto/gesture-model.json');
+          if (loadedModel) {
+            gestureModelRef.current = loadedModel.model;
             if (!cancelled) {
               setHasGestureModel(true);
-              setStatus('Naruto effect is ready. Gesture trigger enabled.');
+              setStatus(
+                loadedModel.source === 'indexeddb'
+                  ? 'Naruto effect is ready. Your browser-trained gesture model is loaded.'
+                  : 'Naruto effect is ready. Gesture trigger enabled.',
+              );
             }
           } else {
-            throw new Error('TensorFlow.js did not initialize.');
+            throw new Error('No trained gesture model was found.');
           }
         } catch (error) {
           gestureModelRef.current = null;
@@ -616,6 +642,15 @@ export default function NarutoPublisher({ localParticipant }: Props) {
         {status}
         {confidence !== null ? ` Confidence ${(confidence * 100).toFixed(1)}%` : ''}
       </div>
+
+      <a
+        href="/naruto-trainer.html"
+        target="_blank"
+        rel="noreferrer"
+        style={{ color: '#7dd3fc', fontSize: 13, textDecoration: 'none' }}
+      >
+        Open the model trainer in a new tab
+      </a>
 
       <div
         style={{

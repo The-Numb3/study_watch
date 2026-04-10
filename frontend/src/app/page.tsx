@@ -24,6 +24,12 @@ export default function HomePage() {
           onChange={(event) => setUserName(event.target.value)}
         />
         <button onClick={handleJoin}>Join room</button>
+        <a
+          href="/naruto-trainer.html"
+          style={{ color: '#2563eb', textDecoration: 'none', fontWeight: 600 }}
+        >
+          Train Naruto gesture model
+        </a>
       </div>
     </main>
   );

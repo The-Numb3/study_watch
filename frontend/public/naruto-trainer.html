@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naruto Gesture Trainer</title>
+  <link rel="stylesheet" href="/naruto-trainer.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="panel">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">Naruto Camera Trainer</p>
+          <h1>Train your own shadow clone gesture</h1>
+          <p class="subtitle">
+            Record positive and negative hand poses, train a small model in the browser,
+            then save it locally so the Study Watch Naruto camera can auto-detect it.
+          </p>
+        </div>
+        <a class="back-link" href="/">Back to Study Watch</a>
+      </div>
+
+      <div class="callout">
+        Recommended: record at least 30 samples for the clone sign and 30 samples for other poses.
+        Use the same browser you plan to use for the Naruto camera.
+      </div>
+
+      <div class="video-shell">
+        <video id="video" autoplay playsinline></video>
+        <canvas id="canvas"></canvas>
+        <div id="rec-badge" class="recording-badge">GET READY</div>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <h2>1. Collect samples</h2>
+          <p class="card-copy">
+            Keep both hands visible. Record the exact Naruto hand sign as positive samples, and
+            record everything else as negative samples.
+          </p>
+          <div class="button-row">
+            <button id="btn-rec-clone" type="button">Record clone sign</button>
+            <button id="btn-rec-other" type="button" class="ghost">Record other poses</button>
+          </div>
+          <div class="counts">
+            <span>Clone sign: <strong id="count-clone">0</strong></span>
+            <span>Other poses: <strong id="count-other">0</strong></span>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>2. Train</h2>
+          <p class="card-copy">
+            The model runs entirely in your browser. After training, it will be saved locally in
+            this browser so the Naruto camera can load it automatically.
+          </p>
+          <div class="confidence-wrap">
+            <div class="confidence-bar">
+              <div id="conf-fill" class="confidence-fill"></div>
+            </div>
+            <span id="conf-label">0%</span>
+          </div>
+          <div class="button-row">
+            <button id="btn-train" type="button">Train model</button>
+            <button id="btn-save-browser" type="button" class="ghost">Save again</button>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>3. Manage model</h2>
+          <p class="card-copy">
+            Download the model if you want a backup, or delete it from this browser and retrain.
+          </p>
+          <div class="button-row">
+            <button id="btn-download-model" type="button" class="ghost">Download model</button>
+            <button id="btn-delete-model" type="button" class="danger">Delete saved model</button>
+          </div>
+        </section>
+      </div>
+
+      <p id="train-status" class="status">
+        Loading trainer...
+      </p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic/holistic.js"></script>
+  <script src="/naruto-trainer.js"></script>
+</body>
+</html>
