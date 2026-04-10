@@ -54,6 +54,7 @@ const SMOKE_FOLDERS = ['smoke_1', 'smoke_2', 'smoke_3'];
 const SMOKE_FRAME_COUNT = 5;
 const SMOKE_DURATION = 600;
 const CLONE_RESET_BUFFER = 2400;
+const MODEL_TRIGGER_THRESHOLD = 0.80;
 const HEURISTIC_TRIGGER_FRAMES = 6;
 const HEURISTIC_DECAY = 2;
 
@@ -541,7 +542,7 @@ export default function NarutoPublisher({ localParticipant }: Props) {
         input.dispose();
         prediction.dispose?.();
         setConfidence(probability);
-        return probability > 0.999;
+        return probability >= MODEL_TRIGGER_THRESHOLD;
       };
 
       holistic.onResults((result: any) => {
