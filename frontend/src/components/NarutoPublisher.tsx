@@ -259,7 +259,7 @@ export default function NarutoPublisher({ localParticipant }: Props) {
   };
 
   const triggerCloneSequence = () => {
-    if (!isActive) return;
+    if (stateRef.current.stopped) return;
     stateRef.current.clonesTriggered = true;
     stateRef.current.cloneStartTime = performance.now();
     clonesRef.current = CUSTOM_CLONES.map((clone) => ({ ...clone, smokeSpawned: false }));
