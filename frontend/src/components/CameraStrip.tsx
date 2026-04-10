@@ -1,6 +1,6 @@
-'use client';
+﻿'use client';
 
-import { VideoTrack, ParticipantName } from '@livekit/components-react';
+import { ParticipantName, VideoTrack } from '@livekit/components-react';
 
 type Props = {
   tracks: any[];
@@ -8,7 +8,7 @@ type Props = {
 
 export default function CameraStrip({ tracks }: Props) {
   if (!tracks.length) {
-    return <div style={{ color: '#aaa' }}>켜진 캠이 없습니다.</div>;
+    return <div style={{ color: '#aaa' }}>No camera feeds yet.</div>;
   }
 
   return (
@@ -20,7 +20,7 @@ export default function CameraStrip({ tracks }: Props) {
             border: '1px solid #444',
             borderRadius: 10,
             padding: 8,
-            background: '#1b1b1b'
+            background: '#1b1b1b',
           }}
         >
           <VideoTrack
@@ -30,7 +30,7 @@ export default function CameraStrip({ tracks }: Props) {
               aspectRatio: '16 / 9',
               objectFit: 'cover',
               borderRadius: 8,
-              background: '#000'
+              background: '#000',
             }}
           />
           <div style={{ color: '#fff', marginTop: 6, fontSize: 13 }}>

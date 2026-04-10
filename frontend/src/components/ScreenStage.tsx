@@ -1,11 +1,10 @@
-'use client';
+﻿'use client';
 
 import { useMemo, useState } from 'react';
-import { VideoTrack, ParticipantName } from '@livekit/components-react';
+import { ParticipantName, VideoTrack } from '@livekit/components-react';
 
 type Props = {
   tracks: any[];
-  localParticipant: any;
 };
 
 export default function ScreenStage({ tracks }: Props) {
@@ -18,13 +17,15 @@ export default function ScreenStage({ tracks }: Props) {
 
   if (!tracks.length) {
     return (
-      <div style={{
-        color: '#fff',
-        height: '100%',
-        display: 'grid',
-        placeItems: 'center'
-      }}>
-        아직 공유 중인 화면이 없습니다.
+      <div
+        style={{
+          color: '#fff',
+          height: '100%',
+          display: 'grid',
+          placeItems: 'center',
+        }}
+      >
+        No one is sharing a screen yet.
       </div>
     );
   }
@@ -38,29 +39,33 @@ export default function ScreenStage({ tracks }: Props) {
             width: '100%',
             height: '100%',
             objectFit: 'contain',
-            background: '#000'
+            background: '#000',
           }}
         />
-        <div style={{
-          position: 'absolute',
-          top: 12,
-          left: 12,
-          color: '#fff',
-          background: 'rgba(0,0,0,0.5)',
-          padding: '6px 10px',
-          borderRadius: 8
-        }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: 12,
+            left: 12,
+            color: '#fff',
+            background: 'rgba(0,0,0,0.5)',
+            padding: '6px 10px',
+            borderRadius: 8,
+          }}
+        >
           <ParticipantName participant={selectedTrack.participant} />
         </div>
       </div>
 
-      <div style={{
-        display: 'flex',
-        gap: 8,
-        padding: 8,
-        overflowX: 'auto',
-        background: '#1a1a1a'
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          gap: 8,
+          padding: 8,
+          overflowX: 'auto',
+          background: '#1a1a1a',
+        }}
+      >
         {tracks.map((track, index) => (
           <button
             key={track.publication?.trackSid || index}
@@ -71,7 +76,7 @@ export default function ScreenStage({ tracks }: Props) {
               border: index === selectedIndex ? '2px solid #4f8cff' : '1px solid #444',
               background: '#000',
               color: '#fff',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
           >
             <VideoTrack

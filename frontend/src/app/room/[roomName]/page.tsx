@@ -1,10 +1,10 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { LiveKitRoom } from '@livekit/components-react';
-import { fetchToken } from '@/lib/api';
 import StudyRoom from '@/components/StudyRoom';
+import { fetchToken } from '@/lib/api';
 
 export default function RoomPage() {
   const params = useParams();
@@ -23,18 +23,18 @@ export default function RoomPage() {
         const result = await fetchToken(roomName, userName);
         setToken(result.token);
         setWsUrl(result.wsUrl);
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
+        console.error(error);
       } finally {
         setLoading(false);
       }
     };
 
-    run();
+    void run();
   }, [roomName, userName]);
 
-  if (loading) return <div style={{ padding: 20 }}>연결 준비 중...</div>;
-  if (!token || !wsUrl) return <div style={{ padding: 20 }}>토큰 발급 실패</div>;
+  if (loading) return <div style={{ padding: 20 }}>Joining room...</div>;
+  if (!token || !wsUrl) return <div style={{ padding: 20 }}>Failed to fetch room token.</div>;
 
   return (
     <LiveKitRoom

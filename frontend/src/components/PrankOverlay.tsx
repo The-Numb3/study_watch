@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useState } from 'react';
 
@@ -14,16 +14,16 @@ export default function PrankOverlay() {
     const id = Date.now();
     setItems((prev) => [...prev, { id, text }]);
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       setItems((prev) => prev.filter((item) => item.id !== id));
     }, 3000);
   };
 
   useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === '1') addPrank('😴 졸지 마');
-      if (e.key === '2') addPrank('🔥 집중해');
-      if (e.key === '3') addPrank('👀 보고 있다');
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === '1') addPrank('Focus mode');
+      if (event.key === '2') addPrank('Eyes on the screen');
+      if (event.key === '3') addPrank('The teacher is watching');
     };
 
     window.addEventListener('keydown', onKeyDown);
@@ -32,33 +32,35 @@ export default function PrankOverlay() {
 
   return (
     <>
-      <div style={{
-        position: 'absolute',
-        right: 16,
-        top: 16,
-        display: 'flex',
-        gap: 8,
-        zIndex: 20
-      }}>
-        <button onClick={() => addPrank('😴 졸지 마')}>😴</button>
-        <button onClick={() => addPrank('🔥 집중해')}>🔥</button>
-        <button onClick={() => addPrank('👀 보고 있다')}>👀</button>
+      <div
+        style={{
+          position: 'absolute',
+          right: 16,
+          top: 16,
+          display: 'flex',
+          gap: 8,
+          zIndex: 20,
+        }}
+      >
+        <button onClick={() => addPrank('Focus mode')}>Focus</button>
+        <button onClick={() => addPrank('Eyes on the screen')}>Eyes</button>
+        <button onClick={() => addPrank('The teacher is watching')}>Watch</button>
       </div>
 
-      {items.map((item, idx) => (
+      {items.map((item, index) => (
         <div
           key={item.id}
           style={{
             position: 'absolute',
             left: '50%',
-            top: `${20 + idx * 12}%`,
+            top: `${20 + index * 12}%`,
             transform: 'translateX(-50%)',
             background: 'rgba(0,0,0,0.7)',
             color: '#fff',
             padding: '10px 16px',
             borderRadius: 999,
             fontSize: 24,
-            zIndex: 30
+            zIndex: 30,
           }}
         >
           {item.text}

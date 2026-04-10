@@ -1,8 +1,7 @@
-// server.jsimport express from 'express';
-import cors from 'cors';
+﻿import cors from 'cors';
 import dotenv from 'dotenv';
-import { AccessToken } from 'livekit-server-sdk';
 import express from 'express';
+import { AccessToken } from 'livekit-server-sdk';
 
 dotenv.config();
 
@@ -15,7 +14,7 @@ const LIVEKIT_API_KEY = process.env.LIVEKIT_API_KEY;
 const LIVEKIT_API_SECRET = process.env.LIVEKIT_API_SECRET;
 const LIVEKIT_URL = process.env.LIVEKIT_URL;
 
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({ ok: true });
 });
 
@@ -25,35 +24,35 @@ app.post('/api/token', async (req, res) => {
 
     if (!roomName || !userName) {
       return res.status(400).json({
-        error: 'roomName and userName are required'
+        error: 'roomName and userName are required',
       });
     }
 
-    const uniqueIdentity = `${userName}-${Math.random().toString(36).slice(2,8)}`;
+    const uniqueIdentity = `${userName}-${Math.random().toString(36).slice(2, 8)}`;
 
-    const at = new AccessToken(LIVEKIT_API_KEY, LIVEKIT_API_SECRET, {
+    const accessToken = new AccessToken(LIVEKIT_API_KEY, LIVEKIT_API_SECRET, {
       identity: uniqueIdentity,
-      ttl: '2h'
+      ttl: '2h',
     });
 
-    at.addGrant({
+    accessToken.addGrant({
       roomJoin: true,
       room: roomName,
       canPublish: true,
       canSubscribe: true,
-      canPublishData: true
+      canPublishData: true,
     });
 
-    const token = await at.toJwt();
+    const token = await accessToken.toJwt();
 
     return res.json({
       token,
-      wsUrl: LIVEKIT_URL
+      wsUrl: LIVEKIT_URL,
     });
   } catch (error) {
     console.error('Token generation error:', error);
     return res.status(500).json({
-      error: 'failed to generate token'
+      error: 'failed to generate token',
     });
   }
 });
